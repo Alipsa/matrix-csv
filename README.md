@@ -1,7 +1,8 @@
 # matrix-csv
-Comprehensive support for creating a Matrix from structured text files (CSV files)
+Comprehensive support for creating a Matrix from structured text files (CSV files) and writing a Matrix to
+a CSV file in the format of choice.
 
-Matrix-csv uses apache-commons csv to parse the csv file. Here is a simple example:
+Matrix-csv uses apache-commons csv to parse and create the csv file. Here is a simple example:
 
 To use it in your project, add the following dependencies to your code
 ```groovy
@@ -66,3 +67,13 @@ assert ['id', 'name', 'date', 'amount'] == table.columnNames() // Column names
 assert [4, 'Arne', LocalDate.parse('2023-07-01'), 222.99] == table.row(3) // last row
 ```
 
+## Exporting a Matrix to a CSV file
+
+```groovy
+import se.alipsa.groovy.datasets.Dataset
+import se.alipsa.groovy.matrixcsv.CsvExporter
+import org.apache.commons.csv.CSVFormat
+
+File file = File.createTempFile('mtcars', '.csv')
+CsvExporter.exportToCsv(Dataset.mtcars(), CSVFormat.DEFAULT, file)
+```
