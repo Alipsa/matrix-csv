@@ -9,6 +9,12 @@ import java.nio.charset.StandardCharsets
 
 class CsvImporter {
 
+  static Matrix importCsv(InputStream is, CSVFormat format, boolean firstRowAsHeader = true, Charset charset = StandardCharsets.UTF_8, String tableName = '') {
+    try (CSVParser parser = CSVParser.parse(is, charset, format)) {
+      return parse(tableName, parser, firstRowAsHeader)
+    }
+  }
+
   static Matrix importCsv(URL url, CSVFormat format, boolean firstRowAsHeader = true, Charset charset = StandardCharsets.UTF_8) {
     try (CSVParser parser = CSVParser.parse(url, charset, format)) {
       return parse(tableName(url), parser, firstRowAsHeader)
@@ -32,12 +38,14 @@ class CsvImporter {
       rowCount++
     }
     List<String> headerRow = []
-    if (firstRowAsHeader) {
-      headerRow = rows.remove(0)
+    if (parser.headerNames != null && parser.headerNames.size() > 0) {
+      headerRow = parser.headerNames
+    } else if (firstRowAsHeader) {
+        headerRow = rows.remove(0)
     } else {
-      for (int i = 0;i < ncols; i++) {
-        headerRow << "c" + i
-      }
+        for (int i = 0;i < ncols; i++) {
+          headerRow << "c" + i
+        }
     }
     //println(headerRow)
     //rows.each {println(it)}

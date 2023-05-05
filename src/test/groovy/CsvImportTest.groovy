@@ -1,5 +1,4 @@
 import org.apache.commons.csv.CSVFormat
-import org.apache.commons.csv.QuoteMode
 import org.junit.jupiter.api.Test
 import se.alipsa.groovy.matrix.Matrix
 import se.alipsa.groovy.matrixcsv.CsvImporter
@@ -30,6 +29,7 @@ class CsvImportTest {
         .setDelimiter(';')
         .setIgnoreEmptyLines(true)
         .setQuote('"' as Character)
+        .setHeader('id', 'name', 'date', 'amount')
         .build()
     Matrix matrix = CsvImporter.importCsv(url, format)
     assertEquals(4, matrix.rowCount(), "Number of rows")

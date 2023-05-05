@@ -26,10 +26,11 @@ repositories {
 dependencies {
   def groovyVersion = '4.0.11'
   def groovy = "org.apache.groovy:groovy:$groovyVersion"
-  api 'se.alipsa.groovy:matrix:1.1.1-SNAPSHOT'
+  compileOnly 'se.alipsa.groovy:matrix:1.1.1-SNAPSHOT'
   api 'org.apache.commons:commons-csv:1.10.0'
   compileOnly groovy
   testImplementation groovy
+  testImplementation 'se.alipsa.groovy:matrix:1.1.1-SNAPSHOT'
   testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
   testImplementation 'se.alipsa.groovy:datasets:1.0.1-SNAPSHOT'
