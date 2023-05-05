@@ -50,7 +50,7 @@ CSVFormat format = CSVFormat.Builder.create()
 Matrix matrix = CsvImporter.importCsv(url, format)
 ```
 
-The resulting Matrix will be all string. To convert the content to the appropriate type, use the `convert` method e.g.
+The resulting Matrix will be all strings. To convert the content to the appropriate type, use the `convert` method e.g.
 ```groovy
 Matrix table = matrix.convert(
   [
@@ -78,4 +78,4 @@ import org.apache.commons.csv.CSVFormat
 File file = File.createTempFile('mtcars', '.csv')
 CsvExporter.exportToCsv(Dataset.mtcars(), CSVFormat.DEFAULT, file)
 ```
-exportToCsv takes File or a Writer as output parameter.
+exportToCsv() takes a File or a Writer as output parameter.
