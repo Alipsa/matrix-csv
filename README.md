@@ -2,13 +2,14 @@
 Comprehensive support for creating a Matrix from structured text files (CSV files) and writing a Matrix to
 a CSV file in the format of choice.
 
-Matrix-csv uses apache-commons csv to parse and create the csv file. Here is a simple example:
-
 To use it in your project, add the following dependencies to your code
 ```groovy
 implementation 'se.alipsa.groovy:matrix:1.1.1'
 implementation 'se.alipsa.groovy:matrix-csv:1.0.0' 
 ```
+
+## Import a CSV file into a Matrix
+Matrix-csv uses apache-commons csv to parse the csv file. Here is a simple example:
 
 ```groovy
 import org.apache.commons.csv.CSVFormat
@@ -20,10 +21,10 @@ CSVFormat format = CSVFormat.Builder.create().setTrim(true).build()
 Matrix basic = CsvImporter.importCsv(url, format)
 ```
 
-For more advanced cases see [the apache commons csv user guid](https://commons.apache.org/proper/commons-csv/user-guide.html)
+For more advanced cases see [the apache commons csv user guide](https://commons.apache.org/proper/commons-csv/user-guide.html)
 
 A slightly more complicated example:
-give the following text file:
+Given the following text file:
 ```
 1;"Per";"2023-Apr-30";234,12
 2;"Karin";"2023-May-10";345,22
@@ -77,3 +78,4 @@ import org.apache.commons.csv.CSVFormat
 File file = File.createTempFile('mtcars', '.csv')
 CsvExporter.exportToCsv(Dataset.mtcars(), CSVFormat.DEFAULT, file)
 ```
+exportToCsv takes File or a Writer as output parameter.
