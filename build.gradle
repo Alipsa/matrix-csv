@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'se.alipsa.groovy'
-version '1.0.0-SNAPSHOT'
+version '1.0.0'
 description = "Groovy library for importing structured text into a matrix"
 
 
@@ -24,16 +24,16 @@ repositories {
 }
 
 dependencies {
-  def groovyVersion = '4.0.11'
+  def groovyVersion = '4.0.12'
   def groovy = "org.apache.groovy:groovy:$groovyVersion"
-  compileOnly 'se.alipsa.groovy:matrix:1.1.1-SNAPSHOT'
+  compileOnly 'se.alipsa.groovy:matrix:1.1.1'
   api 'org.apache.commons:commons-csv:1.10.0'
   compileOnly groovy
   testImplementation groovy
-  testImplementation 'se.alipsa.groovy:matrix:1.1.1-SNAPSHOT'
-  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
-  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
-  testImplementation 'se.alipsa.groovy:datasets:1.0.1-SNAPSHOT'
+  testImplementation 'se.alipsa.groovy:matrix:1.1.1'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+  testImplementation 'se.alipsa.groovy:matrix-datasets:1.0.1'
 }
 
 test {
@@ -97,5 +97,23 @@ signing {
     sign publishing.publications.maven
   } else {
     project.logger.lifecycle("signing.keyId is not defined, skipping signing of artifacts...")
+  }
+}
+
+def isNonStable = { String version ->
+  def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+  def regex = /^[0-9,.v-]+(-r)?$/
+  return !stableKeyword && !(version ==~ regex)
+}
+// https://github.com/ben-manes/gradle-versions-plugin
+tasks.named("dependencyUpdates").configure {
+  resolutionStrategy {
+    componentSelection {
+      all {
+        if (isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)) {
+          reject('Release candidate')
+        }
+      }
+    }
   }
 }
